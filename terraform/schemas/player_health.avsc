@@ -1,0 +1,19 @@
+{
+    "type": "record",
+    "namespace": "io.confluent.developer.avro",
+    "name": "PlayerHealth",
+    "fields": [
+        {
+            "name": "player_id",
+            "type": "string"
+        },
+        {
+            "name": "health",
+            "type": "int"
+        },
+        {
+            "name": "timestamp",
+            "type": "long"
+        }
+    ]
+}

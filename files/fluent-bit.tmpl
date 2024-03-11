@@ -1,0 +1,17 @@
+[SERVICE]
+    Daemon off
+    log_level    info
+    flush           1
+[INPUT]
+    Name              tail
+    path              syslog.log
+    Read_from_Head    true
+[OUTPUT]
+    Name        kafka
+    Match       *
+    brokers	    ${bootstrap_server}
+    topics  logs
+    rdkafka.security.protocol   sasl_ssl
+    rdkafka.sasl.mechanisms PLAIN
+    rdkafka.sasl.username   ${kafka_cluster_key}
+    rdkafka.sasl.password   ${kafka_cluster_secret}

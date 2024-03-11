@@ -1,0 +1,4 @@
+[
+    "io.confluent.developer.avro.PlayerHealth",
+    "io.confluent.developer.avro.PlayerPosition"
+]
