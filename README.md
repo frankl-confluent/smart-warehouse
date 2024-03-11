@@ -1,14 +1,14 @@
-# Gaming Platform Unlocked - Data Streaming Pipeline for Gaming Applications
+# Real-Time Data Streaming for Smart Warehouses
 
-Data streaming technologies like Apache Kafka have become a fundamental part of the underlying infrastructure of gaming applications. This is because they enable real-time stream processing (facilitating improved user experiences), are able to handle large volumes of complex data, and can scale across distributed servers and data centers. 
+Data streaming technologies like Apache Kafka have become a fundamental part of the underlying infrastructure of gaming applications. This is because they enable real-time stream processing (facilitating improved user experiences), are able to handle large volumes of complex data, and can scale across distributed servers and data centers.
 
-Confluent Cloud – the complete, cloud-native and ‘everywhere’ version of Apache Kafka – is used by many gaming companies as the backbone of their data infrastructures. In this demonstration, we’ll show why by guiding you through three technical aspects of Confluent which facilitate the delivery of gaming applications. These are: 
+Confluent Cloud – the complete, cloud-native and ‘everywhere’ version of Apache Kafka – is used by many gaming companies as the backbone of their data infrastructures. In this demonstration, we’ll show why by guiding you through three technical aspects of Confluent which facilitate the delivery of gaming applications. These are:
 
 * Producing Multiple Event Types in Single Topic
 * Preventing duplicate messages with ksqlDB
-* Monitoring and observing event streams 
+* Monitoring and observing event streams
 
-By exploring these aspects, you will gain a deeper understanding of how Confluent Cloud can be adapted to a wide range of gaming applications. 
+By exploring these aspects, you will gain a deeper understanding of how Confluent Cloud can be adapted to a wide range of gaming applications.
 
 ## Requirements
 
@@ -17,13 +17,6 @@ In order to successfully complete this demo you need to install few tools before
 - If you don't have a Confluent Cloud account, sign up for a free trial [here](https://www.confluent.io/confluent-cloud/tryfree).
 - Install Confluent Cloud CLI by following the instructions [here](https://docs.confluent.io/confluent-cli/current/install.html).
 - Please follow the instructions to install Terraform if it is not already installed on your system [here](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)  
-- Install Python on your local system by following the instructions [here](https://realpython.com/installing-python).
-  
-   > **Note:** This demo uses Python 3.11.3 version
-
-- Download and install Fluent Bit based on your operating system. You can find installation instructions for various platforms on the [Fluent Bit download page](https://docs.fluentbit.io/manual/installation/getting-started-with-fluent-bit)
-
-  > **Note:** In this demo, we are going to use Homebrew on Mac to install fluent-bit in our local machine.
 
 ## Prerequisites
 
@@ -37,19 +30,19 @@ In order to successfully complete this demo you need to install few tools before
 
 4. Create *Confluent Cloud API keys* by following the steps in UI. Click on the hamburger icon that is present on the right top section and click on Cloud API Keys.
 
-<div align="center"> 
+<div align="center">
   <img src="images/cloud1.png" width =100% heigth=100%>
 </div>
 
 5. In the Access Control menu, select Global Access and click on the Next Button
 
- <div align="center"> 
+ <div align="center">
   <img src="images/cloud2.png" width =100% heigth=100%>
   <br>
 </div>
 
 6. Now Click Add Key to generate API keys and store it as we will be using this key on terraform to deploy the infrastructure.
-    
+
    > **Note:** This is different than Kafka Cluster API keys.
 
 ### 2. Setting up your Confluent Cloud Infrastructure
@@ -58,7 +51,7 @@ This demo uses Terraform to spin up the entire infrastructure and the resources 
 
 2. Navigate to the repo's terraform directory.
 
-  ```bash 
+  ```bash
   cd terraform
   ```
 
@@ -89,7 +82,7 @@ This demo uses Terraform to spin up the entire infrastructure and the resources 
 6. Apply the plan to create the infrastructure. This should take few minutes to setup.
 
   ```
-  terraform apply 
+  terraform apply
   ```
 
    > **Note:** Read the `main.tf` and the other component specific (.tf) configuration files [to see what will be created](./terraform/main.tf).
@@ -100,7 +93,7 @@ This demo uses Terraform to spin up the entire infrastructure and the resources 
   terraform output -raw client_api_secret
   ```
 
-<div align="center"> 
+<div align="center">
   <img src="images/terminal1.png" width =100% heigth=100%>
 </div>
 
@@ -110,61 +103,21 @@ This demo uses Terraform to spin up the entire infrastructure and the resources 
 
 ### 3. Setting up Python Environment:
 
-1. Install the below required modules in python to run the python scripts as directed in the following steps for implementation of the demo.
-
-  ```
-  pip3 install confluent-kafka
-  ```
-
-## Execution and Demo:
-
-We will cover this whole use case in three different parts to get a better understanding of the concepts and provide you the opportunity to tweak few things and experiement stuff on your own.
-
-### 1. Producing Multiple Event Types in Single Topic
-
-A seamless gaming experience requires events of different types (relating to the same entity) to be consistently and sequentially ordered. Given that ordering is not preserved across multiple partitions, events of different types must flow through a single topic if they’re to be sequentially ordered. Confluent’s Schema Registry can be used to ensure that data of different types in a single topic remains consistent between consumers and producers. This also helps to reduce transfer costs.
 
 ### Architecture Diagram:
 
-<div align="center"> 
-  <img src="images/gaming_platform_unlocked_1.png" width =80% heigth=100% align=center>
+<div align="center">
+  <img src="images/smart_warehouse_architecture.png" width =80% heigth=100% align=center>
 </div>
-
-### Implementation:
-
-1. Navigate to the python directory from the root using the below command and locate the *send_multiple_events_to_topic.py* python script.
-
-  ```bash
-  cd python/
-  ```
-
-2. Please run the Python script using the following syntax:
-
-```bash 
-python3 send_multiple_events_to_topic.py
-```
-
-3. If the credentials were added properly, the script should run successfully and produce the following output.
-
-<div align="center"> 
-  <img src="images/python-result.png" width =100% heigth=100%>
-</div>
-
-This python script sends two types of events *Player Health* and *Player Position* both to the topic *game-events* and the scema registry is configured to accept both schemas and thereby showcasing the implementation of the demo.
 
 ## 2. Preventing duplicate message with ksqlDB:
 
-Duplicate messages can significantly disrupt a gamer’s experience in a number of different ways. They can trigger glitches in player behavior, break game logic and cause applications to crash. 
+Duplicate messages can significantly disrupt a gamer’s experience in a number of different ways. They can trigger glitches in player behavior, break game logic and cause applications to crash.
 
-This can be avoided by leveraging stream processing – either with flink or ksqlDB – to process and remove duplicate events. In this example, we use ksqlDB, which is available as fully-managed on Confluent Cloud.
+This can be avoided by leveraging stream processing – either with flink or ksqlDB – to process and remove duplicate events. In this example, we use Flink.
 
-### Generate Sample data using python:
+### Generate Sample data using datagen connector:
 
-Run the following command to generate data continously to the cluster for working with ksqldb in this demo.
-
-  ```bash
-  python3 produce_sample_data.py
-  ```
 
 ### 1. Create a Stream into the ksqldb Stream Functions by updating the timestamp
 
@@ -186,7 +139,7 @@ Run the following command to generate data continously to the cluster for workin
 
   ```
   CREATE STREAM TXN_PARTITIONEDBY_TXNID
-    WITH (KAFKA_TOPIC='txn_raw_key_txn_id', 
+    WITH (KAFKA_TOPIC='txn_raw_key_txn_id',
           VALUE_FORMAT='AVRO',
           KEY_FORMAT='KAFKA') AS
       SELECT
@@ -289,8 +242,8 @@ Run the following command to generate data continously to the cluster for workin
   ```
   CREATE STREAM TXN_LOOKUP_TABLE_CLEANING_STREAM (
     ID_KEY STRING KEY,
-    DUMMY STRING) 
-  WITH (KAFKA_TOPIC='txn_lookup_table', 
+    DUMMY STRING)
+  WITH (KAFKA_TOPIC='txn_lookup_table',
        VALUE_FORMAT='AVRO',
        KEY_FORMAT='KAFKA');
   ```
@@ -301,7 +254,7 @@ Even though it looks like a quick fix to generate TTL in ksqlDB, you need to be 
 
 Once you have completed all the steps, you will have the complete stream lineage as shown below:
 
-  <div align="center"> 
+  <div align="center">
     <img src="images/stream-lineage.png" width =100% heigth=100%>
   </div>
 
@@ -309,18 +262,10 @@ You can access the Stream Lineage Feature inside Confluent Cloud by accessing th
 
 ## 3. Observability of the gaming platform
 
-The ability to observe and monitor the status of your streaming data pipelines is highly valued regardless of which applications they’re powering. In the context of gaming applications, observability and monitoring help to ensure that platforms remain online and there’s no disruption to play. 
+The ability to observe and monitor the status of your streaming data pipelines is highly valued regardless of which applications they’re powering. In the context of gaming applications, observability and monitoring help to ensure that platforms remain online and there’s no disruption to play.
 
 In this demo, we’re going to use Fluent Bit to process logs and identify SSH (Secure Shell) attacks. As a lightweight, highly scalable logging and metrics processor, Fluent Bit is well suited to delivering observability pipelines for gaming applications. Please follow the following steps to continue with the demo.
 
-### Start Fluent-Bit service:
-
-Run the following command from the root directory to start the fluent bit service on your local machine.
-
-  ```
-  fluent-bit -c fluent-bit/fluent-bit.conf
-  ```
-  > Note: The fluent bit configuration will be autopopulated with the necessary credentials by terraform to connect to confluent cloud.
 
 ### Check logs on Confluent Cloud:
 
@@ -334,10 +279,10 @@ Let us see a quick example on how to use ksqldb to process the logs and look for
 
   ```bash
   CREATE STREAM syslog_stream (
-    timestamp DOUBLE, 
-    log STRING) 
+    timestamp DOUBLE,
+    log STRING)
   WITH (
-    KAFKA_TOPIC='logs', 
+    KAFKA_TOPIC='logs',
     VALUE_FORMAT='JSON');
 
   ```
@@ -391,7 +336,7 @@ Let us see a quick example on how to use ksqldb to process the logs and look for
 
 ### Output data from Enriched Logs:
 
-  <div align="center"> 
+  <div align="center">
     <img src="images/enriched_log_stream.png" width =50% heigth=100%>
   </div>
 
@@ -401,7 +346,7 @@ This data can further be consumed into other alerting or notifications services 
 
 ## Other Features in Confluent Cloud
 
-- High Availability 
+- High Availability
 - Cloud Audit Logs
 - Custom Connectors
 - Encryption
@@ -412,21 +357,6 @@ This data can further be consumed into other alerting or notifications services 
 
 It's recommended that you delete any resources that were created during the demo so you don't incur additional charges. follow the steps below to stop generating additional data and stop all running services and drop the entire infrastructure spun up by terraform.
 
-### Python Scripts:
-
-Head over to the temrinal running the python script and run the following command to stop the running python scripts
-
-  ```bash
-  [ctrl] + Z
-  ```
-
-### Fluent Bit Service:
-
-Head over to the temrinal running the fluent-bit service and run the following command to stop the service.
-
-  ```bash
-  [ctrl] + Z
-  ```
 
 ### Infrastructure:
 
@@ -442,4 +372,3 @@ Head over to the temrinal running the fluent-bit service and run the following c
 1. Introduction to ksqlDB - [tutorial](https://developer.confluent.io/courses/ksqldb/intro/)
 2. Schema Registry overview - [doc](https://docs.confluent.io/platform/current/schema-registry/index.html)
 3. Putting Several Event Types in the Same Topic – Revisited - [blog](https://www.confluent.io/en-gb/blog/multiple-event-types-in-the-same-kafka-topic/)
-4. Fluent Bit for Kafka - [doc](https://docs.fluentbit.io/manual/pipeline/outputs/kafka)

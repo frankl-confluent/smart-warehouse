@@ -1,6 +1,6 @@
 # This part creates environment
 resource "confluent_environment" "development" {
-  display_name = "GamingPlatformUnlocked"
+  display_name = "SmartWarehouse"
   lifecycle {
     prevent_destroy = true
   }
@@ -8,10 +8,10 @@ resource "confluent_environment" "development" {
 
 # This part creates cluster inside environment
 resource "confluent_kafka_cluster" "basic" {
-  display_name = "Gaming Platform Unlocked"
+  display_name = "Smart Warehouse"
   availability = "SINGLE_ZONE"
-  cloud        = "AWS"
-  region       = "ap-south-1"
+  cloud        = "GCP"
+  region       = "us-central"
   basic {}
 
   environment {
