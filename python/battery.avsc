@@ -1,0 +1,39 @@
+{
+  "fields": [
+    {
+      "name": "picker_robot_id",
+      "type": "int"
+    },
+    {
+      "name": "battery_type_id",
+      "type": "int"
+    },
+    {
+      "default": null,
+      "name": "battery_charge",
+      "type": [
+        "null",
+        {
+          "logicalType": "decimal",
+          "precision": 10,
+          "scale": 2,
+          "type": "bytes"
+        }
+      ]
+    },
+    {
+      "default": null,
+      "name": "event_time",
+      "type": [
+        "null",
+        {
+          "logicalType": "local-timestamp-millis",
+          "type": "long"
+        }
+      ]
+    }
+  ],
+  "name": "record",
+  "namespace": "org.apache.flink.avro.generated",
+  "type": "record"
+}
